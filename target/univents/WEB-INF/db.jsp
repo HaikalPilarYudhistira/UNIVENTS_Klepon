@@ -3,10 +3,10 @@
   // =============================================
   //  KONFIGURASI DATABASE - Sesuaikan dengan env
   // =============================================
-  static final String DB_URL      = "jdbc:mariadb://localhost:3306/univents";
-  static final String DB_USER     = "univents_user";
-  static final String DB_PASS     = "univents_pass";
-  static final String DB_DRIVER   = "org.mariadb.jdbc.Driver";
+static final String DB_URL    = "jdbc:mariadb://localhost:3306/univents";
+static final String DB_USER   = "root";
+static final String DB_PASS   = "";
+static final String DB_DRIVER = "org.mariadb.jdbc.Driver";
 
   public static Connection getConnection() throws Exception {
     Class.forName(DB_DRIVER);

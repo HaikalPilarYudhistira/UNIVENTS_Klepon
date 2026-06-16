@@ -43,7 +43,7 @@
         .append("<span>📅 ").append(rs.getDate("tanggal")).append("</span>")
         .append("</div>")
         .append("<div class='card-desc'>").append(rs.getString("deskripsi") != null ? rs.getString("deskripsi").substring(0, Math.min(90, rs.getString("deskripsi").length())) + "…" : "").append("</div>")
-        .append("<a href='mahasiswa/detail.jsp?id=").append(rs.getInt("id")).append("' class='btn btn-primary btn-sm'>Lihat Detail</a>")
+        .append("<a href='/univents/mahasiswa/detail.jsp?id=").append(rs.getInt("id")).append("' class='btn btn-primary btn-sm'>Lihat Detail</a>")
         .append("</div></div>");
     }
     eventRows = sb.toString();
@@ -58,30 +58,36 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>UNIVENTS — Sistem Informasi Event Kampus</title>
-  <link rel="stylesheet" href="css/style.css">
-</head>
+  
+<link rel="stylesheet" href="/univents/css/style.css">
 <body>
 
+<!-- NAVBAR -->
 <!-- NAVBAR -->
 <nav class="navbar">
   <div class="navbar-brand">🎓 UNI<span>VENTS</span></div>
   <div class="navbar-links">
-    <a href="landing/index.jsp" class="active">Beranda</a>
-    <a href="mahasiswa/events.jsp">Event</a>
-    <a href="mahasiswa/login.jsp" class="btn btn-outline">Masuk</a>
-    <a href="mahasiswa/register.jsp" class="btn btn-primary">Daftar</a>
+    <a href="/univents/landing/index.jsp" class="active">Beranda</a>
+    <a href="/univents/mahasiswa/events.jsp">Event</a>
+    <a href="/univents/mahasiswa/login.jsp" class="btn btn-outline">Masuk</a>
+    <a href="/univents/mahasiswa/register.jsp" class="btn btn-primary">Daftar</a>
   </div>
 </nav>
 
 <!-- HERO -->
-<section class="hero">
-  <h1>Satu Tempat,<br>Semua Event Kampus</h1>
-  <p>UNIVENTS memudahkan mahasiswa menemukan dan mendaftar event kampus — seminar, workshop, lomba, dan lainnya — dalam satu platform terpusat.</p>
-  <div class="hero-actions">
-    <a href="mahasiswa/events.jsp" class="btn btn-primary" style="background:#fff;color:var(--primary)">Jelajahi Event</a>
-    <a href="mahasiswa/register.jsp" class="btn btn-outline" style="border-color:#fff;color:#fff">Buat Akun Gratis</a>
-  </div>
-</section>
+<div class="hero-actions">
+  <a href="/univents/mahasiswa/events.jsp"
+     class="btn btn-primary"
+     style="background:#fff;color:var(--primary)">
+     Jelajahi Event
+  </a>
+
+  <a href="/univents/mahasiswa/register.jsp"
+     class="btn btn-outline"
+     style="border-color:#fff;color:#fff">
+     Buat Akun Gratis
+  </a>
+</div>
 
 <!-- STATS -->
 <section style="background:#fff;border-bottom:1px solid var(--border);padding:1.5rem 0;">
@@ -97,7 +103,10 @@
   <div class="container">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:.75rem;">
       <h2 style="font-size:1.4rem;font-weight:800">Event Mendatang</h2>
-      <a href="mahasiswa/events.jsp" class="btn btn-outline btn-sm">Lihat Semua →</a>
+      <a href="/univents/mahasiswa/events.jsp"
+   class="btn btn-outline btn-sm">
+   Lihat Semua →
+</a>
     </div>
     <div class="card-grid">
       <%=eventRows%>
