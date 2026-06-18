@@ -2,54 +2,72 @@
 <%@ page import="java.sql.*" %>
 <%@ include file="/WEB-INF/db.jsp" %>
 <%
-  // Ambil events aktif dari DB
   String eventRows = "";
   int totalEvents  = 0;
   int totalUsers   = 0;
-  try (Connection con = getConnection()) {
-    // Stats
-    ResultSet rs1 = con.createStatement().executeQuery("SELECT COUNT(*) FROM events WHERE status='aktif'");
-    if (rs1.next()) totalEvents = rs1.getInt(1);
-    ResultSet rs2 = con.createStatement().executeQuery("SELECT COUNT(*) FROM users WHERE role='mahasiswa'");
-    if (rs2.next()) totalUsers = rs2.getInt(1);
+  
+  Connection con = null;
+  try {
+      con = getConnection(); // Coba lewat db.jsp dulu
+  } catch (Exception e) {
+      try {
+          // Jika gagal/tersesat, langsung tembak paksa ke Railway
+          Class.forName("org.mariadb.jdbc.Driver");
+          String directUrl = "jdbc:mariadb://yamanote.proxy.rlwy.net:44958/railway";
+          con = DriverManager.getConnection(directUrl, "root", "olTcJGZUeBVIIuSfQjuAvzbzYoHMBwnk");
+      } catch (Exception ex) {
+          con = null;
+      }
+  }
 
-    // Event terbaru (max 6)
-    PreparedStatement ps = con.prepareStatement(
-      "SELECT id,judul,deskripsi,lokasi,tanggal,waktu,kuota,kategori, " +
-      "(SELECT COUNT(*) FROM pendaftaran p WHERE p.event_id=e.id) as peserta " +
-      "FROM events e WHERE status='aktif' ORDER BY tanggal ASC LIMIT 6");
-    ResultSet rs = ps.executeQuery();
-    StringBuilder sb = new StringBuilder();
-    while (rs.next()) {
-      String kategori = rs.getString("kategori");
-      String icon = kategori.equals("akademik") ? "🎓" :
-                    kategori.equals("olahraga")  ? "⚽" :
-                    kategori.equals("seni")       ? "🎨" : "📅";
-      int kuota   = rs.getInt("kuota");
-      int peserta = rs.getInt("peserta");
-      int sisa    = kuota - peserta;
-      String badgeSisa = sisa > 20 ? "badge-green" : sisa > 0 ? "badge-yellow" : "badge-red";
-      String sisat = sisa > 0 ? sisa + " sisa" : "Penuh";
-      sb.append("<div class='card'>")
-        .append("<div class='card-poster'>").append(icon).append("</div>")
-        .append("<div class='card-body'>")
-        .append("<div class='card-meta'>")
-        .append("<span><span class='badge'>").append(kategori).append("</span></span>")
-        .append("<span class='badge ").append(badgeSisa).append("'>").append(sisat).append("</span>")
-        .append("</div>")
-        .append("<div class='card-title'>").append(rs.getString("judul")).append("</div>")
-        .append("<div class='card-meta'>")
-        .append("<span>📍 ").append(rs.getString("lokasi")).append("</span>")
-        .append("<span>📅 ").append(rs.getDate("tanggal")).append("</span>")
-        .append("</div>")
-        .append("<div class='card-desc'>").append(rs.getString("deskripsi") != null ? rs.getString("deskripsi").substring(0, Math.min(90, rs.getString("deskripsi").length())) + "…" : "").append("</div>")
-        .append("<a href='/univents/mahasiswa/detail.jsp?id=").append(rs.getInt("id")).append("' class='btn btn-primary btn-sm'>Lihat Detail</a>")
-        .append("</div></div>");
-    }
-    eventRows = sb.toString();
-    if (eventRows.isEmpty()) eventRows = "<p style='color:var(--text-muted);grid-column:1/-1;text-align:center;padding:3rem 0'>Belum ada event yang tersedia.</p>";
-  } catch (Exception ex) {
-    eventRows = "<p style='color:red;grid-column:1/-1;text-align:center;padding:2rem'>Gagal memuat event: " + ex.getMessage() + "</p>";
+  if (con != null) {
+      try {
+          ResultSet rs1 = con.createStatement().executeQuery("SELECT COUNT(*) FROM events WHERE status='aktif'");
+          if (rs1.next()) totalEvents = rs1.getInt(1);
+          ResultSet rs2 = con.createStatement().executeQuery("SELECT COUNT(*) FROM users WHERE role='mahasiswa'");
+          if (rs2.next()) totalUsers = rs2.getInt(1);
+
+          PreparedStatement ps = con.prepareStatement(
+            "SELECT id,judul,deskripsi,lokasi,tanggal,waktu,kuota,kategori, " +
+            "(SELECT COUNT(*) FROM pendaftaran p WHERE p.event_id=e.id) as peserta " +
+            "FROM events e WHERE status='aktif' ORDER BY tanggal ASC LIMIT 6");
+          ResultSet rs = ps.executeQuery();
+          StringBuilder sb = new StringBuilder();
+          while (rs.next()) {
+            String kategori = rs.getString("kategori");
+            String icon = kategori.equals("akademik") ? "🎓" :
+                          kategori.equals("olahraga")  ? "⚽" :
+                          kategori.equals("seni")       ? "🎨" : "📅";
+            int kuota   = rs.getInt("kuota");
+            int peserta = rs.getInt("peserta");
+            int sisa    = kuota - peserta;
+            String badgeSisa = sisa > 20 ? "badge-green" : sisa > 0 ? "badge-yellow" : "badge-red";
+            String sisat = sisa > 0 ? sisa + " sisa" : "Penuh";
+            sb.append("<div class='card'>")
+              .append("<div class='card-poster'>").append(icon).append("</div>")
+              .append("<div class='card-body'>")
+              .append("<div class='card-meta'>")
+              .append("<span><span class='badge'>").append(kategori).append("</span></span>")
+              .append("<span class='badge ").append(badgeSisa).append("'>").append(sisat).append("</span>")
+              .append("</div>")
+              .append("<div class='card-title'>").append(rs.getString("judul")).append("</div>")
+              .append("<div class='card-meta'>")
+              .append("<span>📍 ").append(rs.getString("lokasi")).append("</span>")
+              .append("<span>📅 ").append(rs.getDate("tanggal")).append("</span>")
+              .append("</div>")
+              .append("<div class='card-desc'>").append(rs.getString("deskripsi") != null ? rs.getString("deskripsi").substring(0, Math.min(90, rs.getString("deskripsi").length())) + "…" : "").append("</div>")
+              .append("<a href='mahasiswa/detail.jsp?id=").append(rs.getInt("id")).append("' class='btn btn-primary btn-sm'>Lihat Detail</a>")
+              .append("</div></div>");
+          }
+          eventRows = sb.toString();
+          if (eventRows.isEmpty()) eventRows = "<p style='color:var(--text-muted);grid-column:1/-1;text-align:center;padding:3rem 0'>Belum ada event yang tersedia.</p>";
+      } catch (Exception ex) {
+          eventRows = "<p style='color:red;grid-column:1/-1;text-align:center;padding:2rem'>Gagal memuat event: " + ex.getMessage() + "</p>";
+      } finally {
+          try { con.close(); } catch (Exception e) {}
+      }
+  } else {
+      eventRows = "<p style='color:red;grid-column:1/-1;text-align:center;padding:2rem'>Gagal memuat koneksi ke database pusat Railway.</p>";
   }
 %>
 <!DOCTYPE html>
