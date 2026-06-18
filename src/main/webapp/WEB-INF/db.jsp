@@ -5,7 +5,7 @@
 
   static final String DB_USER = "root";
 
-  static final String DB_PASS = "PASSWORD_RAILWAY_KAMU";
+  static final String DB_PASS = "olTcJGZUeBVIIuSfQjuAvzbzYoHMBwnk";
 
   static final String DB_DRIVER = "org.mariadb.jdbc.Driver";
 
