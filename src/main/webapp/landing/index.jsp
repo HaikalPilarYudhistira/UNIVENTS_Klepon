@@ -8,10 +8,13 @@
   
   Connection con = null;
   try {
-      con = getConnection(); // Coba lewat db.jsp dulu
+      // PAKSA langsung pakai driver MySQL/MariaDB universal yang disukai Railway
+      Class.forName("com.mysql.cj.jdbc.Driver"); 
+      String directUrl = "jdbc:mysql://yamanote.proxy.rlwy.net:44958/railway";
+      con = DriverManager.getConnection(directUrl, "root", "olTcJGZUeBVIIuSfQjuAvzbzYoHMBwnk");
   } catch (Exception e) {
       try {
-          // Jika gagal/tersesat, langsung tembak paksa ke Railway
+          // Cadangan jika server Railway memakai driver MariaDB asli
           Class.forName("org.mariadb.jdbc.Driver");
           String directUrl = "jdbc:mariadb://yamanote.proxy.rlwy.net:44958/railway";
           con = DriverManager.getConnection(directUrl, "root", "olTcJGZUeBVIIuSfQjuAvzbzYoHMBwnk");
@@ -19,6 +22,9 @@
           con = null;
       }
   }
+
+  if (con != null) {
+      // ... (Sisa kode ke bawahnya sama semua, jangan ada yang diubah) ...
 
   if (con != null) {
       try {
