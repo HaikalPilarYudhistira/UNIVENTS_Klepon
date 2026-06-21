@@ -84,11 +84,11 @@
   <!-- Menggunakan parameter v=1.2 untuk memaksa penyegaran CSS -->
   <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css?v=1.2">
 
-  <!-- KODE BARU: Mengubah warna biru latar belakang menjadi foto mahasiswa -->
+  <!-- FIX: Menggunakan ekstensi .png untuk gambar latar belakang hero -->
   <style>
     header.hero {
       background: linear-gradient(rgba(10, 37, 64, 0.65), rgba(10, 37, 64, 0.75)), 
-                  url('<%=request.getContextPath()%>/css/hero-bg.jpg?v=1.3') no-repeat center center/cover;
+                  url('<%=request.getContextPath()%>/css/hero-bg.png?v=1.5') no-repeat center center/cover;
       padding: 7rem 0;
     }
     header.hero h1, header.hero p {
