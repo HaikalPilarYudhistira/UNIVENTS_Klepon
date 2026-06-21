@@ -81,8 +81,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>UNIVENTS — Sistem Informasi Event Kampus</title>
   
-  <!-- FIX JALUR CSS: Otomatis menyesuaikan root domain -->
-  <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css">
+  <!-- Menggunakan parameter v=1.2 untuk memaksa penyegaran CSS -->
+  <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css?v=1.2">
 </head> <!-- FIX MASALAH 3: Tag penutup head sekarang sudah ditambahkan sebelum body -->
 <body>
 
@@ -97,20 +97,17 @@
   </div>
 </nav>
 
-<!-- HERO -->
-<div class="hero-actions">
-  <a href="<%=request.getContextPath()%>/mahasiswa/events.jsp"
-     class="btn btn-primary"
-     style="background:#fff;color:var(--primary)">
-     Jelajahi Event
-  </a>
-
-  <a href="<%=request.getContextPath()%>/mahasiswa/register.jsp"
-     class="btn btn-outline"
-     style="border-color:#fff;color:#fff">
-     Buat Akun Gratis
-  </a>
-</div>
+<!-- HERO SECTION BANNER (FIX: Potongan HTML biru yang tertinggal dimasukkan kembali di sini) -->
+<header class="hero">
+  <div class="container">
+    <h1>Satu Tempat,<br>Semua Event Kampus</h1>
+    <p>UNIVENTS memudahkan mahasiswa menemukan dan mendaftar event kampus — seminar, workshop, lomba, dan lainnya — dalam satu platform terpusat.</p>
+    <div class="hero-actions">
+      <a href="<%=request.getContextPath()%>/mahasiswa/events.jsp" class="btn btn-primary" style="background:#fff;color:var(--primary)">Jelajahi Event</a>
+      <a href="<%=request.getContextPath()%>/mahasiswa/register.jsp" class="btn btn-outline" style="border-color:#fff;color:#fff">Buat Akun Gratis</a>
+    </div>
+  </div>
+</header>
 
 <!-- STATS -->
 <section style="background:#fff;border-bottom:1px solid var(--border);padding:1.5rem 0;">
