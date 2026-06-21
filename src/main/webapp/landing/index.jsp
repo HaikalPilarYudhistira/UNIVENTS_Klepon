@@ -23,9 +23,7 @@
       }
   }
 
-  if (con != null) {
-      // ... (Sisa kode ke bawahnya sama semua, jangan ada yang diubah) ...
-
+  // FIX MASALAH 1: Baris duplikat if (con != null) { menggantung yang salah telah dihapus di sini.
   if (con != null) {
       try {
           ResultSet rs1 = con.createStatement().executeQuery("SELECT COUNT(*) FROM events WHERE status='aktif'");
@@ -83,10 +81,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>UNIVENTS — Sistem Informasi Event Kampus</title>
   
-<link rel="stylesheet" href="/univents/css/style.css">
+  <link rel="stylesheet" href="/univents/css/style.css">
+</head> <!-- FIX MASALAH 3: Tag penutup head sekarang sudah ditambahkan sebelum body -->
 <body>
 
-<!-- NAVBAR -->
 <!-- NAVBAR -->
 <nav class="navbar">
   <div class="navbar-brand">🎓 UNI<span>VENTS</span></div>
@@ -127,10 +125,7 @@
   <div class="container">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:.75rem;">
       <h2 style="font-size:1.4rem;font-weight:800">Event Mendatang</h2>
-      <a href="/univents/mahasiswa/events.jsp"
-   class="btn btn-outline btn-sm">
-   Lihat Semua →
-</a>
+      <a href="/univents/mahasiswa/events.jsp" class="btn btn-outline btn-sm">Lihat Semua →</a>
     </div>
     <div class="card-grid">
       <%=eventRows%>
