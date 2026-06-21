@@ -83,6 +83,19 @@
   
   <!-- Menggunakan parameter v=1.2 untuk memaksa penyegaran CSS -->
   <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css?v=1.2">
+
+  <!-- KODE BARU: Mengubah warna biru latar belakang menjadi foto mahasiswa -->
+  <style>
+    header.hero {
+      background: linear-gradient(rgba(10, 37, 64, 0.65), rgba(10, 37, 64, 0.75)), 
+                  url('<%=request.getContextPath()%>/css/hero-bg.jpg?v=1.3') no-repeat center center/cover;
+      padding: 7rem 0;
+    }
+    header.hero h1, header.hero p {
+      color: #ffffff !important;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
+    }
+  </style>
 </head> <!-- FIX MASALAH 3: Tag penutup head sekarang sudah ditambahkan sebelum body -->
 <body>
 
@@ -97,7 +110,7 @@
   </div>
 </nav>
 
-<!-- HERO SECTION BANNER (FIX: Potongan HTML biru yang tertinggal dimasukkan kembali di sini) -->
+<!-- HERO SECTION BANNER -->
 <header class="hero">
   <div class="container">
     <h1>Satu Tempat,<br>Semua Event Kampus</h1>
